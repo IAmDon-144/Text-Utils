@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+
+ {%block title%}{%endblock title%}
+
+
+{%block content%}
+
+<div>
+  <h1 id="addtext">Add Your Text</h1>
+  <br>
+
+
+
+</div>
+<div class="ui grid">
+  <div class="row">
+      <div class="twelve wide column">
+        <form id="form"  action="" method="GET">
+          <div class="ui form">
+            <div class="field">
+
+
+              
+        
+              <textarea style="height: 600px;"  id="textarea" name="text" placeholder="Write Your Text Here"></textarea>
+
+        
+         
+          <br>
+          <br>
+
+
+        
+          <button id="capital" type="submit" class="ui inverted segment teal button">CAPITAL</button>
+          <button id="lower" type="submit" class="ui inverted segment violet button">lower</button>      
+          <button id="removePunc" type="submit" class="ui inverted segment pink button">Remove Punctuation</button>
+          <button id="wordCount" type="submit" class="ui primary button">Word Count</button>
+          <button id="makepdf" type="submit" class="ui primary button">Make PDF</button>
+          <button id="wordstart" type="submit" class="ui primary button">Word Starts With W</button>
+          <br>
+          <br>
+
+
+          <button id="texttospeech" type="submit" class="ui inverted green button" data-tooltip="Works in another page" data-position="left center">
+            <i class="play icon"></i>
+            Text to Speech</button>
+
+          <button id="firstlettercap" type="submit" class="ui primary button">Title Case</button>
+
+            
+          <button id="invisiblebutton" type="submit" class="ui inverted red  basic button">Invisible Your Text</button>
+            
+
+
+
+        
+        
+        
+        
+        
+        </div>        
+      </div>
+    </form>
+    <br>
+    <button id="clear"  class="ui inverted secondary button">Clear</button>
+
+
+
+
+      </div>
+      
+      <div class="four wide column">
+
+        <div>
+          <img id="qrimg" alt="qr-code" class="ui rounded image" src="{% static 'audio/qrcode.png'%}">
+          <div class="ui grid">
+            <div class="row">
+
+              <div class="three wide column">
+            
+              </div>
+              <div class="ten wide column">
+    
+                <button  id="texttoqrcode"  class="ui primary button">Text to QR Code</button>
+              </div>
+
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+
+  </div>
+
+
+  </div>
+</div>
+
+
+
+
+
+<script>
+  $(document).ready(function () {
+  // console.log("working");
+
+  function capitalText(){
+    // console.log('Working');
+    const form = document.getElementById('form')
+    form.action = " {% url 'textmodifier:capital' %}"
+  }
+
+  let removePuncText =  () => document.getElementById('form').action = " {% url 'textmodifier:remove-punc' %}"
+  let wordCountText =  () => document.getElementById('form').action = " {% url 'textmodifier:word-count' %}"
+
+
+
+  let makePdf =  () =>{ 
+    
+    let textarea = document.querySelector('textarea').value;
+
+    if(textarea.length == 0){
+      document.getElementById('addtext').innerHTML = 'Please Enter Some Text'
+
+
+    }
+    else{
+      let url = "{% url 'textmodifier:make-pdf' %}"
+      document.getElementById('form').action = url;
+    }
+  }
+
+
+
+
+
+  let lowerText =  () => document.getElementById('form').action = " {% url 'textmodifier:lower' %}"
+  let wordStartsWith =  () => document.getElementById('form').action = " {% url 'textmodifier:word-s-w' %}"
+  let textToSpeech =  () => document.getElementById('form').action = " {% url 'textmodifier:text-to-speech' %}"
+  let finaltextcap =  () => document.getElementById('form').action = " {% url 'textmodifier:first-word-capital' %}"
+  let invisible =  () => document.getElementById('form').action = " {% url 'textmodifier:invisible' %}"
+ 
+  
+
+
+
+
+  document.getElementById('capital').addEventListener('click',capitalText)
+  document.getElementById('removePunc').addEventListener('click',removePuncText)
+  document.getElementById('wordCount').addEventListener('click',wordCountText)
+  document.getElementById('makepdf').addEventListener('click',makePdf)
+  document.getElementById('lower').addEventListener('click',lowerText)
+  document.getElementById('wordstart').addEventListener('click',wordStartsWith)
+  document.getElementById('texttospeech').addEventListener('click',textToSpeech)
+  document.getElementById('firstlettercap').addEventListener('click',finaltextcap)
+  document.getElementById('invisiblebutton').addEventListener('click',invisible)
+  
+
+
+
+
+
+
+
+
+  let clearEvent = () => document.getElementById('textarea').value = ""
+  const clear = document.getElementById('clear').addEventListener('click',clearEvent)
+
+
+
+
+
+
+
+
+});
+
+
+</script>
+<script >
+
+  $(document).ready(function(){
+
+
+//<------------------------------QR-CODE---------------------->
+  let qrcode = document.querySelector('img')
+  let qrtext = document.querySelector('textarea')
+  let qrbutton =   document.getElementById('texttoqrcode')
+  
+
+
+
+  function QrGeneratort(){
+
+
+    let size = "1000x1000"
+    let data = qrtext.value;
+    let baseUrl = 'http://api.qrserver.com/v1/create-qr-code/';
+
+    if (data.length==0) {
+      document.getElementById('addtext').innerHTML = 'Please Enter Some Text'
+
+      
+    }
+    else{
+      
+      let url =`${baseUrl}?data=${data}&size=${size}`
+
+      try {
+        qrcode.src = url
+      } catch (error) {
+
+        document.getElementById('addtext').innerHTML = 'Text is Too Large'
+      }
+      
+
+    }
+
+
+  }
+
+  document.getElementById('texttoqrcode').addEventListener('click',QrGeneratort)
+
+  })
+
+
+
+
+</script>
+
+
+
+{%endblock content%}
+   

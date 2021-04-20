@@ -1,0 +1,107 @@
+{% extends 'base.html' %} 
+
+{% url 'textmodifier:capital' as path_to_capital %}
+{% url 'textmodifier:remove-punc' as path_to_removepunc %}
+
+
+{%block title%}Word Starts With W {%endblock title%} 
+
+{%block content%}
+
+
+{% if is_empty %}
+
+    <h1>You Didn't Enter Any Text</h1>
+{% else %}
+
+
+
+<div class="ui grid">
+    <div class="row">
+
+        <div class="four wide column">
+
+            
+            <h3>{% if aCount > 0  %} A Starts With {{aCount}} Words {% endif %}</h3>
+            <h3>{% if bCount > 0  %} B Starts With {{bCount}} Words {% endif %}</h3>
+            <h3>{% if cCount > 0  %} C Starts With {{cCount}} Words {% endif %}</h3>
+            <h3>{% if dCount > 0  %} D Starts With {{dCount}} Words {% endif %}</h3>
+            <h3>{% if eCount > 0  %} E Starts With {{eCount}} Words {% endif %}</h3>
+            <h3>{% if fCount > 0  %} F Starts With {{fCount}} Words {% endif %}</h3>
+            <h3>{% if gCount > 0  %} G Starts With {{gCount}} Words {% endif %}</h3>
+            <h3>{% if hCount > 0  %} H Starts With {{hCount}} Words {% endif %}</h3>
+            <h3>{% if iCount > 0  %} I Starts With {{iCount}} Words {% endif %}</h3>
+            <h3>{% if jCount > 0  %} J Starts With {{jCount}} Words {% endif %}</h3>
+            <h3>{% if kCount > 0  %} K Starts With {{kCount}} Words {% endif %}</h3>
+            <h3>{% if lCount > 0  %} L Starts With {{lCount}} Words {% endif %}</h3>
+            <h3>{% if mCount > 0  %} M Starts With {{mCount}} Words {% endif %}</h3>
+            
+            <h3>{% if oCount > 0  %} O Starts With {{oCount}} Words {% endif %}</h3>
+            <h3>{% if nCount > 0  %}N Starts With {{nCount}}  Words {% endif %}</h3>
+            <h3>{% if pCount > 0  %} P Starts With {{pCount}} Words {% endif %}</h3>
+            <h3>{% if qCount > 0  %} Q Starts With {{qCount}} Words {% endif %}</h3>
+            <h3>{% if rCount > 0  %} R Starts With {{rCount}} Words {% endif %}</h3>
+            <h3>{% if sCount > 0  %} S Starts With {{sCount}} Words {% endif %}</h3>
+            <h3>{% if tCount > 0  %} T Starts With {{tCount}} Words {% endif %}</h3>
+            <h3>{% if uCount > 0  %} U Starts With {{uCount}} Words {% endif %}</h3>
+            <h3>{% if vCount > 0  %} V Starts With {{vCount}} Words {% endif %}</h3>
+            <h3>{% if wCount > 0  %} W Starts With {{wCount}} Words {% endif %}</h3>
+            <h3>{% if xCount > 0  %} X Starts With {{xCount}} Words {% endif %}</h3>
+            <h3>{% if yCount > 0  %} Y Starts With {{yCount}} Words {% endif %}</h3>
+            <h3>{% if zCount > 0  %} Z Starts With {{zCount}} Words {% endif %}</h3>
+
+            
+        </div>
+        
+        <div class="twelve wide column">
+            <div class="ui segment">
+
+
+
+            <h3>{% if aCount > 0  %} {% for i in a_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if bCount > 0  %} {% for i in b_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if cCount > 0  %} {% for i in c_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if dCount > 0  %} {% for i in d_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if eCount > 0  %} {% for i in e_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if fCount > 0  %} {% for i in f_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if gCount > 0  %} {% for i in g_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if hCount > 0  %} {% for i in h_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if iCount > 0  %} {% for i in i_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if jCount > 0  %} {% for i in j_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if kCount > 0  %} {% for i in k_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if lCount > 0  %} {% for i in l_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if mCount > 0  %} {% for i in m_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if nCount > 0  %} {% for i in n_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if oCount > 0  %} {% for i in o_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if pCount > 0  %} {% for i in p_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if qCount > 0  %} {% for i in q_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if rCount > 0  %} {% for i in r_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if sCount > 0  %} {% for i in s_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if tCount > 0  %} {% for i in t_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if uCount > 0  %} {% for i in u_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if vCount > 0  %} {% for i in v_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if wCount > 0  %} {% for i in w_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if xCount > 0  %} {% for i in x_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if yCount > 0  %} {% for i in y_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+            <h3>{% if zCount > 0  %} {% for i in z_words %} {{i}}, {%endfor%}(Set) {% endif %} </h3>
+        </div>
+
+
+
+        </div>
+    </div>
+{% endif %}
+<h3>Time Taken {{final_time}} Seconds</h3>
+
+<script>
+
+    $(document).ready(function(){
+
+    })
+</script>
+
+
+
+  
+ 
+{% endblock content%}

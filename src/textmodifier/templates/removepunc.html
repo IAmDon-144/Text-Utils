@@ -1,0 +1,104 @@
+{% extends 'base.html' %} 
+
+{% url 'textmodifier:capital' as path_to_capital %}
+{% url 'textmodifier:remove-punc' as path_to_removepunc %}
+
+
+
+{%block title%}Remove Punctuations{%endblock title%} 
+
+{%block content%}
+
+
+
+{% if is_empty %}
+  
+    <h1>You Didn't Enter Any Text</h1>
+
+{% else%}
+
+
+
+  
+
+    <form  id="form" action="" method="GET">
+        <button id="back"  class="ui inverted segment pink button"  data-tooltip="Again Remove Punctuations" data-position="left center">
+
+            <h3>Your Punctuation Less Text is:</h3>
+        </button>
+        <br>
+        <br>
+
+        <div class="ui form">
+            <div class="field">
+        
+            <textarea style="height: 600px;" id="textarea" name="text">{{text}}</textarea>
+            </div>
+        </div>
+        <br>
+
+            
+        <button id="capital" type="submit" class="ui inverted segment teal button">CAPITAL ?</button>
+        <button id="lower" type="submit" class="ui inverted segment violet button">make lower</button>
+        <br>
+        <br>
+    </form>
+    <div>
+        <button id="clear"  class="ui inverted secondary button">Clear</button>
+        <button id="copy"  class="ui inverted secondary button">Copy</button>
+
+      
+    </div>
+ {%endif%}
+      
+
+<h5>Total {{textlen}} Characters</h5>
+<h5>Time Taken {{final_time}} seconds</h5>
+
+<script>
+    $(document).ready(function(){
+  
+  
+  
+    let clearEvent = () => document.getElementById('textarea').value = ""
+  
+  
+    function copy() {
+    var copyText = document.querySelector("#textarea");
+    copyText.select();
+    document.execCommand("copy");
+  }
+  
+    document.querySelector("#copy").addEventListener("click", copy);
+    const clear = document.getElementById('clear').addEventListener('click',clearEvent)
+
+
+    
+  function capital() {
+    document.getElementById('form').action = "{% url 'textmodifier:capital' %}"
+    
+  }
+  function againRemovePunc() {
+    document.getElementById('form').action = "{% url 'textmodifier:remove-punc' %}"
+    
+  }
+  function makeLower() {
+    document.getElementById('form').action = "{% url 'textmodifier:lower' %}"
+    
+  }
+
+  document.getElementById('back').addEventListener('click',againRemovePunc)
+  document.getElementById('capital').addEventListener('click',capital)
+  document.getElementById('lower').addEventListener('click',makeLower)
+
+  
+  
+
+  
+    });
+  
+  </script>
+  
+
+ 
+{%endblock content%}

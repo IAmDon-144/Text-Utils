@@ -1,0 +1,119 @@
+{% extends 'base.html' %} 
+
+{% url 'textmodifier:capital' as path_to_capital %}
+{% url 'textmodifier:remove-punc' as path_to_removepunc %}
+
+
+{%block title%}Capital{%endblock title%} 
+
+{%block content%}
+
+
+
+
+
+  {% if is_empty %}
+
+    <h1>You Didn't Enter Any Text</h1>
+
+  {% elif upper%}
+
+    <h1>Your Text Has Already in UPPERCASE</h1>
+
+  {%else%}
+
+
+<form id="form" action=""  method="GET">
+
+  <button id="back" class="ui inverted segment teal button" type="submit"  data-tooltip="CAPITAL YOUR TEXT AGAIN" data-position="left center">
+    
+    <h3>Your Capital Text is:</h3>
+  </button>
+    <br>
+    <br>
+
+
+
+
+    <div class="ui form">
+      <div class="field">
+
+
+        <textarea style="height: 600px;"  id="textarea" name="text">{{text}}</textarea>
+      </div>
+    </div>
+    <br>      
+  <button type="submit" id="removepunc" class="ui inverted segment pink button">Remove Punctuation ?</button>
+  <button type="submit" id="lower" class="ui inverted segment violet button">make lower</button>
+  <br>
+  <br>
+
+
+</form>
+<div>
+  <button id="clear"  class="ui inverted secondary button">Clear</button>
+  <button id="copy"  class="ui inverted secondary button">Copy</button>
+
+</div>
+
+
+  {% endif%}
+
+  <br>
+  <h5>Total {{textlen}} Characters</h5>
+  <h5>Time Taken {{final_time}} seconds</h5>
+
+
+
+
+<script>
+  $(document).ready(function(){
+
+
+
+  let clearEvent = () => document.getElementById('textarea').value = ""
+
+
+  function copy() {
+  var copyText = document.querySelector("#textarea");
+  copyText.select();
+  document.execCommand("copy");
+}
+
+  document.querySelector("#copy").addEventListener("click", copy);
+  const clear = document.getElementById('clear').addEventListener('click',clearEvent)
+
+  function againCapital() {
+    document.getElementById('form').action = "{% url 'textmodifier:capital' %}"
+    
+  }
+  function removePunc() {
+    document.getElementById('form').action = "{% url 'textmodifier:remove-punc' %}"
+    
+  }
+  function makeLower() {
+    document.getElementById('form').action = "{% url 'textmodifier:lower' %}"
+    
+  }
+
+  document.getElementById('back').addEventListener('click',againCapital)
+  document.getElementById('removepunc').addEventListener('click',removePunc)
+  document.getElementById('lower').addEventListener('click',makeLower)
+
+
+
+
+  // const copy = document.getElementById('clear').addEventListener('click',copyEvent)
+
+  });
+
+</script>
+
+
+
+
+
+
+  
+ 
+{% endblock content%}

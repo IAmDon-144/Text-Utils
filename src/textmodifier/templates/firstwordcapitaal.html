@@ -1,0 +1,25 @@
+{% extends 'base.html' %} 
+
+
+
+{%block title%}First Word Capital{%endblock title%} 
+
+{%block content%}
+
+
+{% if is_empty%}
+<div>
+    <h1>You Didn't Enter Any Text</h1>
+</div>
+
+{% else %}
+<div>
+
+         {{final_text}}
+
+</div>
+
+<h5>Time Taken:&nbsp; {{final_time}}</h5>
+{% endif %}
+ 
+{%endblock content%}

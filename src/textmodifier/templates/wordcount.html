@@ -1,0 +1,68 @@
+{% extends 'base.html' %} 
+
+
+
+{%block title%}Word Count{%endblock title%} 
+
+{%block content%}
+
+
+
+<form action="" method="GET">
+
+
+  {% if Char == 0 %}
+
+    <h1>You Didn't Enter Any Text</h1>
+
+
+  {%else%}
+  <div   data-tooltip="Back To Home" data-position="left center">
+    
+    <a  href="{% url 'textmodifier:result' %}"><h1 id="back">Total {{count}}{% if count == 1 %} Word {% else %} Words {%endif%} out of {{Char}} Characters
+    </h1></a>
+    </div>
+    <br>
+    <h2>Total {{sen_count}} {% if sen_count > 1 %} Sentences {% else %}  Sentence {% endif %}</h2>
+
+
+
+    <div data-tooltip="See Set of Prepositions" data-position="left center">    
+      <h2 style="color: navy;" id="prepositions">Total {{pre_count}} {% if pre_count > 1  %}  Prepositions {% else %} Preposition {% endif %}</h2>
+    </div>
+
+
+
+    <p style="display: none;" id="pre">{{instance_prepositions}}</p>
+  
+
+  <h5>Time Taken {{final_time}} seconds</h5>
+
+
+  {% endif%}
+
+  <br>
+
+
+
+
+</form>
+
+<script>
+  $(document).ready(function(){
+
+
+    $('#prepositions').click(()=>{
+      $('#pre').toggle('fast',function(){
+        // document.querySelector('#pre').innerHTML = ""
+      })
+    })
+    
+  })
+</script>
+
+
+  
+
+ 
+{%endblock content%}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %} 
+
+
+
+{%block title%}Invisible{%endblock title%} 
+
+{%block content%}
+
+<p id="invisibleText"></p>
+<button id="visibleBtn" class="ui primary button" >Visible Text</button>
+
+
+<script>
+
+    function visibleFinc(){
+        let visibleText =document.querySelector('#invisibleText')
+        visibleText.innerHTML = '<p>{{text}}</p>'
+    }
+
+    let VisibleBtn = document.querySelector('#visibleBtn')
+    VisibleBtn.addEventListener('click',visibleFinc)
+
+</script>
+
+{%endblock content%}

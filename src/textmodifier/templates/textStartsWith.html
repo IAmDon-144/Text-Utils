@@ -1,0 +1,58 @@
+{% extends 'base.html' %} 
+
+{% url 'textmodifier:capital' as path_to_capital %}
+{% url 'textmodifier:remove-punc' as path_to_removepunc %}
+
+
+{%block title%}Word Starts With W {%endblock title%} 
+
+{%block content%}
+
+
+{% if is_empty %}
+
+    <h1>You Didn't Enter Any Text</h1>
+{% else %}
+    
+    <div class="ui grid">
+        <div class="row">
+
+            {% for letter,word,count in myzip %}
+                {% if word %}
+                <br>
+            <div class="ui segment">
+
+                <div class="five wide column">
+                    <h3>{{letter}} Starts With {{count}} {% if count > 1 %} Words {% else%} Word {% endif%}</h3> 
+                </div>
+                <div class="eleven wide column"></div>
+                    {{word}}-----(Set)
+
+            </div>
+                {% endif %}
+            <br>
+            {% endfor %}
+
+            </div>
+
+
+
+        </div>
+        <h3>Time Taken {{final_time}} Seconds</h3>
+    </div>
+
+{% endif %}
+
+
+<script>
+
+    $(document).ready(function(){
+
+    })
+</script>
+
+
+
+  
+ 
+{% endblock content%}
