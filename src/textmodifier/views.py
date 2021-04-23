@@ -7,9 +7,7 @@ from gtts import gTTS
 import time
 import reportlab
 import io
-
 import os
-from langdetect import detect
 import qrcode
 import png
 from pyqrcode import QRCode
@@ -481,3 +479,33 @@ def invisibleText(request):
     }
 
     return render(request,'invisible.html',context)
+
+
+def textCheckup(request):
+    text = request.GET.get('text','default')
+    punctuation = 0
+    alphabet =0
+    spaces = 0
+    upper_case = 0
+    lower_case = 0
+    digit = 0
+    ascii_ = 0
+
+    for letter in text:
+        if letter.isalpha():alphabet+=1
+        if letter.isspace():spaces+=1
+        if letter.islower():lower_case+=1
+        if letter.isupper():upper_case+=1
+        if letter.isnumeric():digit+=1
+        if letter.isascii():ascii_+=1
+        if letter in string.punctuation:punctuation+=1
+
+    listKey = ['Alphabet','Digit','UPPER CASE','lower case','Punctuation','Spaces','Ascii Letter']
+    listValue = [alphabet,digit,upper_case,lower_case,punctuation,spaces,ascii_]
+    final_list = zip(listKey,listValue)
+
+    context = {
+        'final_list':final_list,
+
+    }
+    return render(request,'info.html',context)

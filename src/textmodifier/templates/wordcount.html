@@ -1,8 +1,9 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load static %} 
 
 
 
-{%block title%}Word Count{%endblock title%} 
+{%block title%}-Word Count{%endblock title%} 
 
 {%block content%}
 
@@ -14,6 +15,8 @@
   {% if Char == 0 %}
 
     <h1>You Didn't Enter Any Text</h1>
+
+
 
 
   {%else%}

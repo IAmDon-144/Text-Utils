@@ -33,7 +33,7 @@
 
         
           <button id="capital" type="submit" class="ui inverted segment teal button">CAPITAL</button>
-          <button id="lower" type="submit" class="ui inverted segment violet button">lower</button>      
+          <button id="lower" type="submit" class="ui inverted segment violet button">lower case</button>      
           <button id="removePunc" type="submit" class="ui inverted segment pink button">Remove Punctuation</button>
           <button id="wordCount" type="submit" class="ui primary button">Word Count</button>
           <button id="makepdf" type="submit" class="ui primary button">Make PDF</button>
@@ -46,7 +46,9 @@
             <i class="play icon"></i>
             Text to Speech</button>
 
-          <button id="firstlettercap" type="submit" class="ui primary button">Title Case</button>
+          <button id="firstlettercap" type="submit" class="ui primary button">Capitalize Every Word</button>
+
+          <button id="textcheackup" type="submit" class="ui primary button">Text Informations</button>
 
             
           <button id="invisiblebutton" type="submit" class="ui inverted red  basic button">Invisible Your Text</button>
@@ -91,10 +93,28 @@
 
         </div>
 
+        <!-- <div class="ui segment">
+          <div class="ui grid">
+            <div class="row">
+              <div class="twelve wide column">
+
+                <div class="ui semetric label">I am Nabil</div>
+                
+              </div>
+              <div class="two wide column">
+                <div class="ui semetric label">0</div>
+              </div>
+            </div>
+          </div>
+
+      
+        </div> -->
+
 
 
 
   </div>
+
 
 
   </div>
@@ -142,6 +162,7 @@
   let wordStartsWith =  () => document.getElementById('form').action = " {% url 'textmodifier:word-s-w' %}"
   let textToSpeech =  () => document.getElementById('form').action = " {% url 'textmodifier:text-to-speech' %}"
   let finaltextcap =  () => document.getElementById('form').action = " {% url 'textmodifier:first-word-capital' %}"
+  let textinfo =  () => document.getElementById('form').action = " {% url 'textmodifier:text-informations' %}"
   let invisible =  () => document.getElementById('form').action = " {% url 'textmodifier:invisible' %}"
  
   
@@ -157,6 +178,7 @@
   document.getElementById('wordstart').addEventListener('click',wordStartsWith)
   document.getElementById('texttospeech').addEventListener('click',textToSpeech)
   document.getElementById('firstlettercap').addEventListener('click',finaltextcap)
+  document.getElementById('textcheackup').addEventListener('click',textinfo)
   document.getElementById('invisiblebutton').addEventListener('click',invisible)
   
 
@@ -210,17 +232,15 @@
       
       let url =`${baseUrl}?data=${data}&size=${size}`
 
+
       try {
         qrcode.src = url
       } catch (error) {
 
-        document.getElementById('addtext').innerHTML = 'Text is Too Large'
-      }
-      
+        document.getElementById('addtext').innerHTML = error
+      }      
 
     }
-
-
   }
 
   document.getElementById('texttoqrcode').addEventListener('click',QrGeneratort)

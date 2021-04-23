@@ -1,11 +1,21 @@
 {% load static %}
 <!doctype html>
+
 <html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Free online text modifier.This webapp is made for know about the statistics of a text and also for modifing it.
+    Text UPPERCASE ;lower case;Punctuation remove;raw text to pdf;text to speech;Each Word Capital;count words,sentences,prepositions;Alphabetically arranged words;text to Qr code are the main feature of this app. ">
+
+    <meta name="keywords" content="text-modifier,text modifier, UPPERCASE,lower case,Punctuation remove,pdf,text-to-speech,each word capital,words count,prepositions count,sentences count,text to qrcode ,title case,text utils,">
+
+    
     <!-- jQuery -->
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
@@ -18,16 +28,20 @@
     
 
 
-  
-    <title>textutils - {% block title %}{% endblock title %}</title>
+
+    <title>Text Modifier {% block title %}{% endblock title %}</title>
+    <link rel="shortcut icon" href="{% static 'audio/tmlogo.ico'%}" type="image/x-icon">
   </head>
   <body>
       {% include 'main/navbar.html' %}
 
-    <div class="ui container">
-      {% block content %}
-      {% endblock content %}
-    </div>
+
+  <div class="ui container">
+    {% block content %}
+    {% endblock content %}
+  </div>
+
+
 
     {% block scripts %}
 

@@ -1,7 +1,9 @@
+{% load static %}
 {% url 'textmodifier:result' as path_to_home %}
 {% url 'textmodifier:about' as path_to_about %}
 
 <div class="ui secondary pointing menu">
+
     <a href="{{path_to_home}}" class="{% if request.path == path_to_home %}active{%endif%} item">
       Home
     </a>

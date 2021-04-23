@@ -1,8 +1,9 @@
 {% extends 'base.html' %} 
+{% load static %}
 
 
 
-{%block title%}First Word Capital{%endblock title%} 
+{%block title%}-Capitalize Every Word{%endblock title%} 
 
 {%block content%}
 
@@ -10,6 +11,7 @@
 {% if is_empty%}
 <div>
     <h1>You Didn't Enter Any Text</h1>
+
 </div>
 
 {% else %}
