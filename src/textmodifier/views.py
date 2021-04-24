@@ -8,8 +8,8 @@ import time
 import reportlab
 import io
 import os
-import qrcode
-import png
+
+
 from pyqrcode import QRCode
 import string
 
@@ -143,22 +143,41 @@ def about(request):
 
 def makePDF(request):
 
+
     textcontent = request.GET.get('text','default')
     textcontent.strip()
-    pdf_word_list = textcontent.split(' ')
-    list_for_pdf = []
+    words = textcontent.split(' ')
+    maxwidth = 85
+    
 
-    j = 12
-    for i in range(0,len(pdf_word_list),12):
-        string = ' '.join(pdf_word_list[i:j])
-        list_for_pdf.append(string)
-        j+=12
+    if not words:
+        return
+
+    result = []
+    cur =[]
+    num_of_letters = 0
+    for w in words:
+        if num_of_letters+len(cur)+len(w)>maxwidth:
+            if len(cur) ==1:
+                result.append(cur[0]+' '*(maxwidth-num_of_letters))
+            else:
+                num_of_spaces = maxwidth -num_of_letters
+                spaces_between_words,extra = divmod(num_of_spaces,len(cur)-1)
+                for i in range(extra):
+                    cur[i]+=' '
+                result.append((' '*spaces_between_words).join(cur))
+            cur=[]
+            num_of_letters =0
+        cur.append(w)
+        num_of_letters+=len(w)
+    result.append(' '.join(cur)+' '*(maxwidth-num_of_letters-len(cur)-1))
+
+
 
 
     buffer = io.BytesIO()
 
-
-    file_name = f'{list_for_pdf[0][0:10]}.pdf'
+    file_name = f'{result[0][0:10]}.pdf'
 
 
 
@@ -168,7 +187,7 @@ def makePDF(request):
     text =pdf.beginText(40,800)
     text.setFont('Courier',10)
 
-    for line in list_for_pdf:
+    for line in result:
         text.textLine(line)
     pdf.drawText(text)
     pdf.showPage()
@@ -413,27 +432,7 @@ def wordStartsWith(request):
 
 def textToSpeech(request):
 
-    if request.method =="GET":
-        text = request.GET.get('text','default')
-        title = text[0:text.find(' ')]
-        is_empty = False
-        if len(text) == 0:
-            is_empty = True
-        else:
-
-            lang = detect(text)
-            TTS = gTTS(text = text , lang=lang,slow=False)
-            # TTS.save(f'static_project/audio/{title}.mp3')            
-            # os.system(f'start static_project/audio/{title}.mp3')
-            # p =  FileResponse(as_attachment=True,filename=(f'{title}.mp3'))
-
-        context={
-            'audio':f'{title}.mp3',
-            # 'p':p,
-            # 'is_empty':is_empty
-            'text':text
-        }
-    return render(request,'texttospeech.html',context)
+    return render(request,'texttospeech.html')
 
 
 def firstWordCapital(request):
@@ -474,11 +473,13 @@ def invisibleText(request):
 
     context ={
 
-        'text':text
-
+        'text':text,
     }
 
     return render(request,'invisible.html',context)
+
+
+
 
 
 def textCheckup(request):

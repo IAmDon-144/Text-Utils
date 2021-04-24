@@ -2,7 +2,7 @@
 
 
 
-{%block title%}Invisible{%endblock title%} 
+{%block title%} -Invisible{%endblock title%} 
 
 {%block content%}
 
@@ -11,15 +11,18 @@
 
 
 <script>
+    $(document).ready(function(){
 
-    function visibleFinc(){
-        let visibleText =document.querySelector('#invisibleText')
-        visibleText.innerHTML = '<p>{{text}}</p>'
-    }
+        function invFunc(){
+            console.log('we');
+            document.querySelector('#invisibleText').innerHTML = '<p>{{text}}</p>'
+        }
 
-    let VisibleBtn = document.querySelector('#visibleBtn')
-    VisibleBtn.addEventListener('click',visibleFinc)
+
+        let invBtn = document.querySelector('#visibleBtn')
+        invBtn.addEventListener('click',invFunc)
+    })
 
 </script>
 
-{%endblock content%}
+{% endblock content%}
