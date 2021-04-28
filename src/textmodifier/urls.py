@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import result,capital,removePunc,wordCount,about,makePDF,lower,wordStartsWith,textToSpeech,firstWordCapital,invisibleText,textCheckup
+from .views import result,capital,removePunc,wordCount,about,makePDF,lower,wordStartsWith,textToSpeech,firstWordCapital,invisibleText,textCheckup,secRetCode,revealCode,passGen
 
 
 app_name = "textmodifier"
@@ -20,6 +20,10 @@ urlpatterns = [
     path("firstwordcapital/",firstWordCapital,name='first-word-capital'),
     path("textinformations/",textCheckup,name='text-informations'),
     path("invisible/",invisibleText,name='invisible'),
+    path("secrettext/",secRetCode,name='secrettext'),    
+    path("revealtext/",revealCode,name='revealtext'),
+    path("passgen/",passGen,name='pass-gen'),
+
 
 
 ]

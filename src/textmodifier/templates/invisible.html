@@ -6,23 +6,36 @@
 
 {%block content%}
 
-<p id="invisibleText"></p>
-<button id="visibleBtn" class="ui primary button" >Visible Text</button>
+{% if is_empty %}
+    <h1>Please Fill All Fileds</h1>
 
+{% else %}
+<form>
+    <div class="form-group">
+    <h4><span class="badge badge-pill badge-info">Your {{which}} Text is:</span></h4>
+
+      <textarea style="height: 525px;" class="form-control" id="secretText" rows="3">{{text}}</textarea>
+    </div>
+  </form>
+
+
+<button id="copy" class="ui inverted secondary button" >Copy</button>
+
+{% endif %}
 
 <script>
+
     $(document).ready(function(){
-
-        function invFunc(){
-            console.log('we');
-            document.querySelector('#invisibleText').innerHTML = '<p>{{text}}</p>'
-        }
-
-
-        let invBtn = document.querySelector('#visibleBtn')
-        invBtn.addEventListener('click',invFunc)
-    })
-
-</script>
-
+    
+            
+      function copy() {
+      var copyText = document.querySelector("#secretText");
+      copyText.select();
+      document.execCommand("copy");
+    }
+    
+      document.querySelector("#copy").addEventListener("click", copy);
+        })
+    </script>
+    
 {% endblock content%}

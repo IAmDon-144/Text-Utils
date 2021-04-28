@@ -6,6 +6,23 @@
 
 {%block content%}
 
+<style>
+  #wordstart{
+    margin: 8px 0px 0px 0px;
+  }
+  #firstlettercap{
+
+    margin: 8px 0px 8px 0px;
+
+  }
+  #textcheackup{
+    
+    margin: 8px 0px 8px 0px;
+
+  }
+</style>
+
+
 <div>
   <h1 id="addtext">Add Your Text</h1>
   <br>
@@ -32,9 +49,9 @@
 
 
         
-          <button id="capital" type="submit" class="ui inverted segment teal button">CAPITAL</button>
-          <button id="lower" type="submit" class="ui inverted segment violet button">lower case</button>      
-          <button id="removePunc" type="submit" class="ui inverted segment pink button">Remove Punctuation</button>
+          <button id="capital" type="submit" class="ui inverted segment teal button">CAPITAL CASE</button>
+          <button id="lower" type="submit" class="ui inverted segment violet button">lower case </button>      
+          <button id="removePunc" type="submit" class="ui inverted segment pink button">Remove Punctuations</button>
           <button id="wordCount" type="submit" class="ui primary button">Word Count</button>
           <button id="makepdf" type="submit" class="ui primary button">Make PDF</button>
           <button id="wordstart" type="submit" class="ui primary button">Word Starts With W</button>
@@ -49,22 +66,59 @@
           <button id="firstlettercap" type="submit" class="ui primary button">Capitalize Every Word</button>
 
           <button id="textcheackup" type="submit" class="ui primary button">Text Informations</button>
+          <button id="secret" type="button" class="ui primary button">Secret  My Text</button>
+          
+          <button id="reveal" type="button" class="ui primary button">Reveal  My Text</button>
+          <br>
+          <br>
 
-            
-          <button id="invisiblebutton" type="submit" class="ui inverted red  basic button">Invisible Your Text</button>
-            
 
 
 
+
+          <div style="display: none;" id="codeSecret" class="ui input focus ">
+            <label id="secretLabel" class="ui red label" for="secretpass"><h4>Give a Code to make your text Secret</h4></label>
+            <input id="secVal" name="secretpass" type="text" autocomplete="off" placeholder="write here"  >
+            <button id="submitSecret" type="submit" class="ui primary button">Submit</button>
+          </div>
+
+          <div style="display: none;" id="codeReveal" class="ui input focus">
+            <label id="revealLabel" class="ui green label" for="revealpass"><h4>Give that Code to make your text Reveal</h4></label>
+            <input id="revVal" name="revealpass" type="text" autocomplete="off" placeholder="write here"  >
+            <button id="submitReveal" type="submit" class="ui primary button">Submit</button>
+          </div>
+
+          
+          
+
+
+
+
         
-        
-        
-        
-        
-        </div>        
+        </div>
+
+
+        <label  type="text" class="ui primary basic button" >Replace  </label>        
+        <div class="ui input focus">
+          <input name="replaceit" type="text"  >
+        </div>
+
+        <label  class="ui primary basic button" > with</label>
+        <div class="ui input focus">
+          <input name="replacewith" type="text"  >
+        </div>
+        <button id="invisiblebutton1" type="submit" class="ui primary basic button" >Replace It</button>
+
+
+
+
+
+        <button class="ui primary  button" >Generate Passwords</button>
       </div>
     </form>
+
     <br>
+
     <button id="clear"  class="ui inverted secondary button">Clear</button>
 
 
@@ -75,7 +129,7 @@
       <div class="four wide column">
 
         <div>
-          <img id="qrimg" alt="qr-code" class="ui rounded image" src="{% static 'audio/qrcode.png'%}">
+          <img id="qrimg" alt="qr-code" class="ui rounded image" src="{%static 'audio/qrcode.png'%}">
           <div class="ui grid">
             <div class="row">
 
@@ -85,6 +139,7 @@
               <div class="ten wide column">
     
                 <button  id="texttoqrcode"  class="ui primary button">Text to QR Code</button>
+
               </div>
 
             </div>
@@ -163,7 +218,28 @@
   let textToSpeech =  () => document.getElementById('form').action = " {% url 'textmodifier:text-to-speech' %}"
   let finaltextcap =  () => document.getElementById('form').action = " {% url 'textmodifier:first-word-capital' %}"
   let textinfo =  () => document.getElementById('form').action = " {% url 'textmodifier:text-informations' %}"
-  let invisible =  () => document.getElementById('form').action = " {% url 'textmodifier:invisible' %}"
+  // let invisible =  () => document.getElementById('form').action = " {% url 'textmodifier:invisible' %}"
+  let invisible1 =  () => document.getElementById('form').action = " {% url 'textmodifier:invisible' %}"
+
+
+  let submitSecret =  () =>document.getElementById('form').action = " {% url 'textmodifier:secret-text' %}"  
+    
+  let submitReveal =  () => document.getElementById('form').action = " {% url 'textmodifier:reveal-text' %}"
+
+  
+  function secretCode(){
+    $('#codeReveal').hide()
+    $('#codeSecret').toggle()
+  }
+ 
+
+  function revealCode(){
+
+    $('#codeReveal').toggle()
+    $('#codeSecret').hide()
+  }
+
+
  
   
 
@@ -179,7 +255,13 @@
   document.getElementById('texttospeech').addEventListener('click',textToSpeech)
   document.getElementById('firstlettercap').addEventListener('click',finaltextcap)
   document.getElementById('textcheackup').addEventListener('click',textinfo)
-  document.getElementById('invisiblebutton').addEventListener('click',invisible)
+  // document.getElementById('invisiblebutton').addEventListener('click',invisible)
+  document.getElementById('invisiblebutton1').addEventListener('click',invisible1)
+  document.getElementById('secret').addEventListener('click',secretCode)
+  document.getElementById('reveal').addEventListener('click',revealCode)
+  document.getElementById('submitSecret').addEventListener('click',submitSecret)
+  document.getElementById('submitReveal').addEventListener('click',submitReveal)
+  document.getElementById('passGen').addEventListener('click',passGenerator)
   
 
 
@@ -191,6 +273,10 @@
 
   let clearEvent = () => document.getElementById('textarea').value = ""
   const clear = document.getElementById('clear').addEventListener('click',clearEvent)
+
+
+
+  //INPUT REQRD:
 
 
 

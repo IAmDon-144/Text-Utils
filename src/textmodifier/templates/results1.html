@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+{% load static %}
+
+ {%block title%}{%endblock title%}
+
+
+{%block content%}
+
+
+<style>
+
+  @media all and (max-width:425px){
+
+    #makepdf{
+      width: 100%;
+    }
+
+    #capital{
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    #lower{
+      width: 100%;
+    }
+
+    #wordCount{
+      width: 100%;
+
+    }
+    #removePunc{
+      width: 100%;
+    }
+    #wordstart{
+      width: 100%;
+    }
+    #texttospeech{
+      width: 100%;
+    }
+    #firstlettercap{
+      width: 100%;
+    }
+    #textcheackup{
+      width: 100%;
+    }
+    #passgen{
+      width: 100%;
+    }
+    #texttoqrcode{
+      width: 100%;
+    }
+    #withDiv{
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    #withLab{
+      width: 92px;
+      margin: 5px 0px 5px 0px;
+
+    }
+
+
+  }
+</style>
+
+<div>
+    <h2 id="addtext">Add Your Text</h2>
+</div>
+<br>
+
+
+
+
+<form id="form"  action="" method="GET">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+                <div class="form-group">            
+                  <textarea style="height: 390px;" class="form-control"  id="textarea" name="text" rows="3" placeholder="Write Your Text Here">{{stringNew}}</textarea>
+                  <button  id="clear" type="button"  class="btn btn-dark mt-2">Clear</button>
+                </div>
+
+        </div>
+        <div class="col-sm-3">
+
+            <div>
+                <img  id="qrimg" alt="qr-code" class="ui rounded image" src="{%static 'audio/qrcode.png'%}">       
+
+              </div>
+        </div>
+    </div>
+    
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col-sm-9">
+
+          <button id="capital" type="submit" class="btn btn-info mt-2">CAPITAL CASE</button>
+          <button id="lower" type="submit" class="btn btn-warning mt-2">lower case </button>      
+          <button id="removePunc" type="submit" class="btn btn-info mt-2">Remove Punctuations</button>
+          <button id="wordCount" type="submit" class="btn btn-warning mt-2">Word Count</button>
+          <button id="makepdf" type="submit" class="btn btn-info mt-2">Make PDF</button>
+          <button id="wordstart" type="submit" class="btn btn-warning mt-2">Word Starts	&nbsp; With W</button>
+          <button id="texttospeech" type="submit" class="btn btn-info mt-2">
+              <i class="play icon"></i>
+              Text to Speech</button>
+      
+          <button id="firstlettercap" type="submit" class="btn btn-warning mt-2">Capitalize Every Word</button>
+          
+          <button id="textcheackup" type="submit" class="btn btn-primary mt-2">Text Informations</button>
+          <button id="passgen" type="submit" class="btn btn-primary mt-2">Generate Passwords</button>
+      
+      
+      
+          
+      
+      
+      
+      
+      
+        <button type="button"  id="texttoqrcode" class="btn btn-primary mt-2">Text to QR Code</button>
+
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+  <br>
+
+
+
+
+  <div  class="input-group mb-3">
+    <input  name="secretCode" type="text" class="form-control" placeholder="Give a Valid Numaric Code to Make Your Text Secret" autocomplete="off" >
+      <button id="secretBtn" class="btn btn-danger" type="submit">Secret Text</button>
+  </div>
+
+
+  <div class="input-group mb-3">
+    <input name="revealCode" type="text" class="form-control" placeholder="Give your accurate  Code to Make Your Text Revealed" autocomplete="off" >
+
+      <button id="revealBtn" class="btn btn-success" type="submit">Reveal Text</button>
+
+  </div>
+
+
+
+<div>
+
+  
+  <label  type="text" class="ui primary basic button" >Replace  </label>        
+  <div class="ui input focus">
+    <input name="replaceit" type="text"  >
+  </div>
+
+  <label id="withLab"  class="ui primary basic button" > with</label>
+  <div class="ui input focus">
+    <input name="replacewith" type="text"  >
+  </div>
+
+
+  <button id="invisiblebutton1" type="submit" class="ui primary button" >Replace It</button>
+
+</div>
+
+
+
+  </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+    // console.log("working");
+  
+    function capitalText(){
+      // console.log('Working');
+      const form = document.getElementById('form')
+      form.action = " {% url 'textmodifier:capital' %}"
+    }
+  
+    let removePuncText =  () => document.getElementById('form').action = " {% url 'textmodifier:remove-punc' %}"
+    let wordCountText =  () => document.getElementById('form').action = " {% url 'textmodifier:word-count' %}"
+  
+  
+  
+    let makePdf =  () =>{ 
+      
+      let textarea = document.querySelector('textarea').value;
+  
+      if(textarea.length == 0){
+        document.getElementById('addtext').innerHTML = 'Please Enter Some Text'
+  
+  
+      }
+      else{
+        let url = "{% url 'textmodifier:make-pdf' %}"
+        document.getElementById('form').action = url;
+      }
+    }
+  
+  
+  
+  
+  
+    let lowerText =  () => document.getElementById('form').action = " {% url 'textmodifier:lower' %}"
+    let wordStartsWith =  () => document.getElementById('form').action = " {% url 'textmodifier:word-s-w' %}"
+    let textToSpeech =  () => document.getElementById('form').action = " {% url 'textmodifier:text-to-speech' %}"
+    let finaltextcap =  () => document.getElementById('form').action = " {% url 'textmodifier:first-word-capital' %}"
+    let textinfo =  () => document.getElementById('form').action = " {% url 'textmodifier:text-informations' %}"
+    let invisible1 =  () => document.getElementById('form').action = " {% url 'textmodifier:invisible' %}"
+    let passGenerator =  () => document.getElementById('form').action = " {% url 'textmodifier:pass-gen' %}"
+    let submitSecretBtn =  () => document.getElementById('form').action = " {% url 'textmodifier:secrettext' %}"
+    let submitRevealBtn =  () => document.getElementById('form').action = " {% url 'textmodifier:revealtext' %}"
+  
+
+    
+  
+  
+  
+  
+    document.getElementById('capital').addEventListener('click',capitalText)
+    document.getElementById('removePunc').addEventListener('click',removePuncText)
+    document.getElementById('wordCount').addEventListener('click',wordCountText)
+    document.getElementById('makepdf').addEventListener('click',makePdf)
+    document.getElementById('lower').addEventListener('click',lowerText)
+    document.getElementById('wordstart').addEventListener('click',wordStartsWith)
+    document.getElementById('texttospeech').addEventListener('click',textToSpeech)
+    document.getElementById('firstlettercap').addEventListener('click',finaltextcap)
+    document.getElementById('textcheackup').addEventListener('click',textinfo)
+    document.getElementById('invisiblebutton1').addEventListener('click',invisible1)
+    document.getElementById('passgen').addEventListener('click',passGenerator) 
+    document.getElementById('secretBtn').addEventListener('click',submitSecretBtn)
+    document.getElementById('revealBtn').addEventListener('click',submitRevealBtn)
+
+
+
+    let clearEvent = () => 
+    {
+      document.getElementById('textarea').value = "";
+      document.getElementById('qrimg').src = "{%static 'audio/qrcode.png'%}"
+    }
+
+    const clear = document.getElementById('clear').addEventListener('click',clearEvent)
+  
+  
+  
+    //INPUT REQRD:
+  
+  
+  
+  
+  
+  
+  
+  
+  });
+  
+  
+  </script>
+  <script >
+  
+    $(document).ready(function(){
+  
+  
+  //<------------------------------QR-CODE---------------------->
+    let qrcode = document.querySelector('img')
+    let qrtext = document.querySelector('textarea')
+    let qrbutton =   document.getElementById('texttoqrcode')
+    
+  
+  
+  
+    function QrGeneratort(){
+  
+  
+      let size = "1000x1000"
+      let data = qrtext.value;
+      let baseUrl = 'http://api.qrserver.com/v1/create-qr-code/';
+  
+      if (data.length==0) {
+        document.getElementById('addtext').innerHTML = 'Please Enter Some Text'
+  
+        
+      }
+      else{
+        
+        let url =`${baseUrl}?data=${data}&size=${size}`
+  
+  
+        try {
+          qrcode.src = url
+        } catch (error) {
+  
+
+        }
+    
+  
+      }
+    }
+  
+    document.getElementById('texttoqrcode').addEventListener('click',QrGeneratort)
+  
+    })
+  
+  
+  
+  
+  </script>
+  
+
+{% endblock content%}
+

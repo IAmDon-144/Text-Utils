@@ -5,13 +5,13 @@ from PIL import Image,ImageDraw
 from reportlab.pdfgen import canvas
 from gtts import gTTS
 import time
-import reportlab
 import io
 import os
-
-
 from pyqrcode import QRCode
 import string
+from django.views.generic import View
+from django.template.loader import get_template
+from .utils import render_to_pdf
 
 
 
@@ -20,7 +20,7 @@ def result(request):
 
 
 
-    return render(request,'result.html')
+    return render(request,'results1.html')
 
 
 def capital(request):
@@ -141,13 +141,17 @@ def about(request):
 
 
 
-def makePDF(request):
+
+
+
+def makePDF(request, *args, **kwargs):
 
 
     textcontent = request.GET.get('text','default')
+
     textcontent.strip()
     words = textcontent.split(' ')
-    maxwidth = 85
+    maxwidth = 100
     
 
     if not words:
@@ -173,29 +177,26 @@ def makePDF(request):
     result.append(' '.join(cur)+' '*(maxwidth-num_of_letters-len(cur)-1))
 
 
-
-
-    buffer = io.BytesIO()
-
-    file_name = f'{result[0][0:10]}.pdf'
+    title = f'{words[0][0:10]}'
 
 
 
-    pdf = canvas.Canvas(buffer)
-    pdf.setTitle(f'{file_name}')
 
-    text =pdf.beginText(40,800)
-    text.setFont('Courier',10)
+    template = get_template('pdf.html')
+    context  = {
+        'text':result,
+        'title':title,
+        
+    }
+    html = template.render(context)
+    pdf = render_to_pdf('pdf.html', context)
+    if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')        
+        return response
 
-    for line in result:
-        text.textLine(line)
-    pdf.drawText(text)
-    pdf.showPage()
+    else:
+        return HttpResponse('Not Found')
 
-    pdf.save()
-    buffer.seek(0)
-
-    return FileResponse(buffer, as_attachment=True, filename=file_name)
 
 
 
@@ -469,11 +470,28 @@ def firstWordCapital(request):
 
 
 def invisibleText(request):
-    text = request.GET.get('text','default')
+    textcontent = request.GET.get('text','default')
+    replaceit = request.GET.get('replaceit','default')
+    replacewith = request.GET.get('replacewith','default')
+
+    is_empty =False
+    if len(textcontent)==0:
+        is_empty =True
+    if len(replaceit)==0:
+        is_empty =True
+    if len(replacewith)==0:
+        is_empty =True
+
+
+    text = textcontent.replace(replaceit,replacewith)
+
+    
+
 
     context ={
 
         'text':text,
+        'is_empty':is_empty
     }
 
     return render(request,'invisible.html',context)
@@ -510,3 +528,116 @@ def textCheckup(request):
 
     }
     return render(request,'info.html',context)
+
+
+
+
+def secRetCode(request):
+    print('Views Fired')
+    text = request.GET.get('text','default')
+    code1 = request.GET.get('secretCode','')
+    code = code1
+
+    is_alpha = False
+    stringNew = ''
+
+    if code == '0':
+        code = '123456'
+
+    elif code == '':
+        is_alpha = True
+        code = '123456'
+
+
+    elif code.isdigit() == False:
+        is_alpha = True
+        code = '123456'
+
+ 
+    while(int(code)>9):
+        code=sum(int(i) for i in str(code))
+    # print(code,'code')
+    code =int(code)
+
+
+
+    stri = [' ','a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', 'q', 'w', 'e', 'r', 't','y', 'u', 'i', 'o', 'p', '[', ']', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.',
+    '/', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', 'Z', 'X', 'C', 'V', 'B',
+    'N', 'M', '<', '>', '?', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}',
+    '|', '!', '@', '#', '$', '%', '^', '&', '(', ')', '_','-', '1', '2', '3', '4', '5',
+    '6', '7', '8', '9', '0', '+', '*','𐌀','𐌁','𐌂','𐌃','𐌄','𐌅','𐌈','𐌎','𐌘','𐌙','Θ']
+    # print(stri[88])
+
+
+
+    for i in range(len(text)):
+        for j in range(len(stri) - 1):
+            if text[i] == stri[j]:
+                q=stri[j + code]
+                stringNew+=q
+
+
+
+    context = {
+        'stringNew':stringNew,
+        'code':code1,
+        'is_alpha':is_alpha,
+        'which':'secret'
+    }
+    return render(request,'secrettext.html',context)
+
+
+
+def revealCode(request):
+    text = request.GET.get('text','default')
+    code1 = request.GET.get('revealCode','')
+    code = code1
+    is_alpha = False
+    stringNew = ''
+
+    if code == '0':
+        code = '123456'
+
+    elif code == '':
+        is_alpha = True
+        code = '123456'
+
+
+    elif code.isdigit() == False:
+        is_alpha = True
+        code = '123456'
+
+ 
+    while(int(code)>9):
+        code=sum(int(i) for i in str(code))
+    # print(code,'code')
+    code =int(code)
+
+
+
+    stri = [' ','a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', 'q', 'w', 'e', 'r', 't','y', 'u', 'i', 'o', 'p', '[', ']', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.',
+    '/', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', 'Z', 'X', 'C', 'V', 'B',
+    'N', 'M', '<', '>', '?', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}',
+    '|', '!', '@', '#', '$', '%', '^', '&', '(', ')', '_','-', '1', '2', '3', '4', '5',
+    '6', '7', '8', '9', '0', '+', '*','𐌀','𐌁','𐌂','𐌃','𐌄','𐌅','𐌈','𐌎','𐌘','𐌙','Θ']
+
+
+
+    for i in range(len(text)):
+        for j in range(len(stri) - 1):
+            if text[i] == stri[j]:
+                q=stri[j - code]
+                stringNew+=q
+
+ 
+    context = {
+        'stringNew':stringNew,
+        'code':code1,
+        'is_alpha':is_alpha,
+        'which':'revealed'
+    }
+    return render(request,'secrettext.html',context)
+
+
+def passGen(request):
+    return render(request,'generatepass.html')

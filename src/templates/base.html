@@ -25,12 +25,22 @@
     <!-- semantic UI -->
     <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
     
 
 
 
     <title>Text Modifier {% block title %}{% endblock title %}</title>
-    <link rel="shortcut icon" href="{% static 'audio/tmlogo.ico'%}" type="image/x-icon">
+    <link rel="shortcut icon" href="{%static 'audio/tmlogo.png'%}" type="image/x-icon">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+  
 
 
   </head>
@@ -40,12 +50,15 @@
 
   <div class="ui container">
     {% block content %}
+
+
     {% endblock content %}
   </div>
 
 
 
-    {% block scripts %}    
+    {% block scripts %}
+ 
 
     {% endblock scripts %}
    

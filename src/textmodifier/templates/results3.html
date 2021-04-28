@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+
+ {%block title%}{%endblock title%}
+
+
+{%block content%}
+
+<style>
+  #wordstart{
+    margin: 8px 0px 0px 0px;
+  }
+  #firstlettercap{
+
+    margin: 8px 0px 8px 0px;
+
+  }
+  #textcheackup{
+    
+    margin: 8px 0px 8px 0px;
+
+  }
+</style>
+
+
+<div>
+  <h1 id="addtext">Add Your Text</h1>
+  <br>
+</div>
+
+
+
+<div class="ui grid">
+  <div class="row">
+      <div class="sixteen wide column">
+        <form id="form"  action="" method="GET">
+          <div class="ui form">
+            <div class="field">            
+        
+              <textarea style="height: 600px;"  id="textarea" name="text" placeholder="Write Your Text Here"></textarea>
+              
+        <div>
+            <img id="qrimg" alt="qr-code" class="ui rounded image" src="{%static 'audio/qrcode.png'%}">
+  
+        </div>       
+        </div>
+    </form>
+
+    </div>
+    <div class="six wide column">
+
+  </div>    
+  </div>
+</div>
+
+<button id="capital" type="submit" class="ui inverted segment teal button">CAPITAL CASE</button>
+<button id="lower" type="submit" class="ui inverted segment violet button">lower case </button>      
+<button id="removePunc" type="submit" class="ui inverted segment pink button">Remove Punctuations</button>
+<button id="wordCount" type="submit" class="ui primary button">Word Count</button>
+<button id="makepdf" type="submit" class="ui primary button">Make PDF</button>
+<button id="wordstart" type="submit" class="ui primary button">Word Starts With W</button>
+<br>
+<br>
+
+
+<button id="texttospeech" type="submit" class="ui inverted green button" data-tooltip="Works in another page" data-position="left center">
+  <i class="play icon"></i>
+  Text to Speech</button>
+
+<button id="firstlettercap" type="submit" class="ui primary button">Capitalize Every Word</button>
+
+<button id="textcheackup" type="submit" class="ui primary button">Text Informations</button>
+<button id="secret" type="button" class="ui primary button">Secret  My Text</button>
+
+<button id="reveal" type="button" class="ui primary button">Reveal  My Text</button>
+<br>
+<br>
+
+
+
+
+
+<div style="display: none;" id="codeSecret" class="ui input focus ">
+  <label id="secretLabel" class="ui red label" for="secretpass"><h4>Give a Code to make your text Secret</h4></label>
+  <input id="secVal" name="secretpass" type="text" autocomplete="off" placeholder="write here"  >
+  <button id="submitSecret" type="submit" class="ui primary button">Submit</button>
+</div>
+
+<div style="display: none;" id="codeReveal" class="ui input focus">
+  <label id="revealLabel" class="ui green label" for="revealpass"><h4>Give that Code to make your text Reveal</h4></label>
+  <input id="revVal" name="revealpass" type="text" autocomplete="off" placeholder="write here"  >
+  <button id="submitReveal" type="submit" class="ui primary button">Submit</button>
+</div>
+
+<label  type="text" class="ui primary basic button" >Replace  </label>        
+<div class="ui input focus">
+  <input name="replaceit" type="text"  >
+</div>
+
+<label  class="ui primary basic button" > with</label>
+<div class="ui input focus">
+  <input name="replacewith" type="text"  >
+</div>
+<button id="invisiblebutton1" type="submit" class="ui primary basic button" >Replace It</button>
+
+<button  id="texttoqrcode"  class="ui primary button">Text to QR Code</button>
+
+
+
+<button class="ui primary  button" >Generate Passwords</button>
+</div>
+
+<button id="clear"  class="ui inverted secondary button">Clear</button>
+
+
+
+
+<script>
+  $(document).ready(function () {
+  // console.log("working");
+
+  function capitalText(){
+    // console.log('Working');
+    const form = document.getElementById('form')
+    form.action = " {% url 'textmodifier:capital' %}"
+  }
+
+  let removePuncText =  () => document.getElementById('form').action = " {% url 'textmodifier:remove-punc' %}"
+  let wordCountText =  () => document.getElementById('form').action = " {% url 'textmodifier:word-count' %}"
+
+
+
+  let makePdf =  () =>{ 
+    
+    let textarea = document.querySelector('textarea').value;
+
+    if(textarea.length == 0){
+      document.getElementById('addtext').innerHTML = 'Please Enter Some Text'
+
+
+    }
+    else{
+      let url = "{% url 'textmodifier:make-pdf' %}"
+      document.getElementById('form').action = url;
+    }
+  }
+
+
+
+
+
+  let lowerText =  () => document.getElementById('form').action = " {% url 'textmodifier:lower' %}"
+  let wordStartsWith =  () => document.getElementById('form').action = " {% url 'textmodifier:word-s-w' %}"
+  let textToSpeech =  () => document.getElementById('form').action = " {% url 'textmodifier:text-to-speech' %}"
+  let finaltextcap =  () => document.getElementById('form').action = " {% url 'textmodifier:first-word-capital' %}"
+  let textinfo =  () => document.getElementById('form').action = " {% url 'textmodifier:text-informations' %}"
+  // let invisible =  () => document.getElementById('form').action = " {% url 'textmodifier:invisible' %}"
+  let invisible1 =  () => document.getElementById('form').action = " {% url 'textmodifier:invisible' %}"
+
+
+  let submitSecret =  () =>document.getElementById('form').action = " {% url 'textmodifier:secret-text' %}"  
+    
+  let submitReveal =  () => document.getElementById('form').action = " {% url 'textmodifier:reveal-text' %}"
+
+  
+  function secretCode(){
+    $('#codeReveal').hide()
+    $('#codeSecret').toggle()
+  }
+ 
+
+  function revealCode(){
+
+    $('#codeReveal').toggle()
+    $('#codeSecret').hide()
+  }
+
+
+ 
+  
+
+
+
+
+  document.getElementById('capital').addEventListener('click',capitalText)
+  document.getElementById('removePunc').addEventListener('click',removePuncText)
+  document.getElementById('wordCount').addEventListener('click',wordCountText)
+  document.getElementById('makepdf').addEventListener('click',makePdf)
+  document.getElementById('lower').addEventListener('click',lowerText)
+  document.getElementById('wordstart').addEventListener('click',wordStartsWith)
+  document.getElementById('texttospeech').addEventListener('click',textToSpeech)
+  document.getElementById('firstlettercap').addEventListener('click',finaltextcap)
+  document.getElementById('textcheackup').addEventListener('click',textinfo)
+  // document.getElementById('invisiblebutton').addEventListener('click',invisible)
+  document.getElementById('invisiblebutton1').addEventListener('click',invisible1)
+  document.getElementById('secret').addEventListener('click',secretCode)
+  document.getElementById('reveal').addEventListener('click',revealCode)
+  document.getElementById('submitSecret').addEventListener('click',submitSecret)
+  document.getElementById('submitReveal').addEventListener('click',submitReveal)
+  document.getElementById('passGen').addEventListener('click',passGenerator)
+  
+
+
+
+
+
+
+
+
+  let clearEvent = () => document.getElementById('textarea').value = ""
+  const clear = document.getElementById('clear').addEventListener('click',clearEvent)
+
+
+
+  //INPUT REQRD:
+
+
+
+
+
+
+
+
+});
+
+
+</script>
+<script >
+
+  $(document).ready(function(){
+
+
+//<------------------------------QR-CODE---------------------->
+  let qrcode = document.querySelector('img')
+  let qrtext = document.querySelector('textarea')
+  let qrbutton =   document.getElementById('texttoqrcode')
+  
+
+
+
+  function QrGeneratort(){
+
+
+    let size = "1000x1000"
+    let data = qrtext.value;
+    let baseUrl = 'http://api.qrserver.com/v1/create-qr-code/';
+
+    if (data.length==0) {
+      document.getElementById('addtext').innerHTML = 'Please Enter Some Text'
+
+      
+    }
+    else{
+      
+      let url =`${baseUrl}?data=${data}&size=${size}`
+
+
+      try {
+        qrcode.src = url
+      } catch (error) {
+
+        document.getElementById('addtext').innerHTML = error
+      }      
+
+    }
+  }
+
+  document.getElementById('texttoqrcode').addEventListener('click',QrGeneratort)
+
+  })
+
+
+
+
+</script>
+
+
+
+{%endblock content%}
+   
